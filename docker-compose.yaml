@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  kakashi-auth:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kakashi-auth
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    volumes:
+      - .:/usr/src/app
+    command: npm run dev
+
+  kakashi-test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kakashi-test
+    env_file:
+      - .env

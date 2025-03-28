@@ -1,0 +1,39 @@
+.
+├── Dockerfile
+├── README.md
+├── app.js
+├── estrutura.txt
+├── package-lock.json
+├── package.json
+└── src
+    ├── config
+    │   └── db.config.js
+    ├── controllers
+    │   ├── Auth.controller.js
+    │   ├── Monitoring.controller.js
+    │   └── Token.controller.js
+    ├── helpers
+    │   └── responses.js
+    ├── middlewares
+    │   ├── complete_log.middleware.js
+    │   ├── error.middleware.js
+    │   ├── headers.middleware.js
+    │   ├── monitoring.middleware.js
+    │   └── xrayRouteTracer.js
+    ├── models
+    │   ├── Monitoring.model.js
+    │   ├── Platform.model.js
+    │   ├── Token.model.js
+    │   └── User.model.js
+    ├── producers
+    ├── routes
+    │   ├── auth.route.js
+    │   ├── index.js
+    │   ├── monitoring.route.js
+    │   └── token.route.js
+    ├── services
+    └── utils
+        ├── TransactionGenerator.js
+        └── logger.js
+
+11 directories, 26 files
