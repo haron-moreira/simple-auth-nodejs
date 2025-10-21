@@ -125,15 +125,32 @@ PASSWORD_DB=your-database-password
 DATABASE_DB=your-database-name
 
 # AWS Configuration (Optional)
+# Leave these empty or commented out if you don't want to use AWS services
 AWS_ACCESS_KEY_ID=your-aws-access-key
 AWS_SECRET_ACCESS_KEY=your-aws-secret-key
 AWS_REGION=us-east-1
+
+# CloudWatch Logging (Optional)
 CLOUDWATCH_GROUP=your-cloudwatch-group
 CLOUDWATCH_STREAM=your-cloudwatch-stream
+
+# AWS X-Ray Tracing (Optional)
+# Set to 'true' to enable distributed tracing
+AWS_XRAY_ENABLED=false
 
 # Environment
 NODE_ENV=development
 ```
+
+### AWS Services (Optional)
+
+All AWS integrations are **completely optional**. The service works perfectly without AWS:
+
+- **Without AWS**: Logs are stored locally in `logs/` directory with daily rotation
+- **With CloudWatch**: Logs are sent to AWS CloudWatch (requires AWS credentials)
+- **With X-Ray**: Distributed tracing is enabled (requires `AWS_XRAY_ENABLED=true` + AWS credentials)
+
+The service will automatically detect AWS configuration and enable features accordingly.
 
 ## License
 
