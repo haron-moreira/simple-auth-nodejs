@@ -130,3 +130,10 @@ dist
 .pnp.*
 
 .codegpt
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+*~
