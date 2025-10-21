@@ -1,39 +1,63 @@
 .
-├── Dockerfile
-├── README.md
-├── app.js
-├── estrutura.txt
-├── package-lock.json
-├── package.json
-└── src
-    ├── config
-    │   └── db.config.js
-    ├── controllers
-    │   ├── Auth.controller.js
-    │   ├── Monitoring.controller.js
-    │   └── Token.controller.js
-    ├── helpers
-    │   └── responses.js
-    ├── middlewares
-    │   ├── complete_log.middleware.js
-    │   ├── error.middleware.js
-    │   ├── headers.middleware.js
-    │   ├── monitoring.middleware.js
-    │   └── xrayRouteTracer.js
-    ├── models
-    │   ├── Monitoring.model.js
-    │   ├── Platform.model.js
-    │   ├── Token.model.js
-    │   └── User.model.js
-    ├── producers
-    ├── routes
-    │   ├── auth.route.js
-    │   ├── index.js
-    │   ├── monitoring.route.js
-    │   └── token.route.js
-    ├── services
-    └── utils
-        ├── TransactionGenerator.js
-        └── logger.js
+├── __tests__
+│   └── auth.test.js                    # Testes unitários e de integração
+├── src
+│   ├── config
+│   │   └── db.config.js                # Configuração do banco de dados MySQL
+│   ├── controllers
+│   │   ├── Auth.controller.js          # Lógica de autenticação (login, logout, refresh)
+│   │   ├── Monitoring.controller.js    # Controller de monitoramento de performance
+│   │   └── Token.controller.js         # Validação e decode de JWT tokens
+│   ├── helpers
+│   │   └── responses.js                # Padrões de resposta da API (success/error)
+│   ├── middlewares
+│   │   ├── complete_log.middleware.js  # Logger de requisições completas
+│   │   ├── error.middleware.js         # Handler de erros globais
+│   │   ├── headers.middleware.js       # Validação de headers obrigatórios
+│   │   ├── monitoring.middleware.js    # Coleta de métricas de performance
+│   │   └── xrayRouteTracer.js          # Middleware de tracing AWS X-Ray (opcional)
+│   ├── models
+│   │   ├── Monitoring.model.js         # Model para tabela de monitoramento
+│   │   ├── Platform.model.js           # Model para controle de acesso por plataforma
+│   │   ├── Token.model.js              # Model para refresh tokens
+│   │   └── User.model.js               # Model de usuários
+│   ├── routes
+│   │   ├── auth.route.js               # Rotas de autenticação (/api/v1/login, /refresh, /logout)
+│   │   ├── index.js                    # Agregador de rotas
+│   │   ├── monitoring.route.js         # Rota de métricas de monitoramento
+│   │   └── token.route.js              # Rotas de validação de token (/api/v1/validate, /me)
+│   └── utils
+│       ├── TransactionGenerator.js     # Gerador de IDs únicos para transações
+│       └── logger.js                   # Logger híbrido (local + CloudWatch opcional)
+├── .env.example                        # Template de variáveis de ambiente
+├── .gitignore                          # Arquivos ignorados pelo git
+├── Dockerfile                          # Imagem Docker para deploy
+├── README.md                           # Documentação completa do projeto
+├── app.js                              # Entry point da aplicação Express
+├── docker-compose.yaml                 # Orquestração de containers (opcional)
+├── estrutura.txt                       # Este arquivo - estrutura do projeto
+├── example-db.sql                      # Schema completo do banco de dados MySQL
+├── package-lock.json                   # Lock de dependências npm
+└── package.json                        # Dependências e scripts do projeto
 
-11 directories, 26 files
+10 directories, 29 files
+
+📋 COMANDOS ÚTEIS:
+─────────────────────────────────────────────────────────────
+Para gerar/atualizar este arquivo, use um dos comandos:
+
+# Opção 1: tree (mais bonito, precisa instalar)
+tree -I 'node_modules|.git|logs' -L 3 --dirsfirst > estrutura.txt
+
+# Opção 2: tree com charset para compatibilidade
+tree -I 'node_modules|.git|logs' -L 3 --dirsfirst --charset ascii > estrutura.txt
+
+# Opção 3: find (nativo, mais simples)
+find . -type f -o -type d | grep -v node_modules | grep -v .git | sort > estrutura.txt
+
+# Para instalar tree no macOS:
+brew install tree
+
+# Para instalar tree no Linux:
+sudo apt-get install tree  # Ubuntu/Debian
+sudo yum install tree      # CentOS/RHEL
