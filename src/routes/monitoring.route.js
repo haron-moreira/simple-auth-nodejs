@@ -15,6 +15,6 @@ const MonitoringInstance = new MonitoringController({
 });
 
 
-router.get('/surf/api/v3/monitoring', MonitoringInstance.getMonitoringPastData.bind(MonitoringInstance));
+router.get('/api/v1/monitoring', MonitoringInstance.getMonitoringPastData.bind(MonitoringInstance));
 
 module.exports = router;

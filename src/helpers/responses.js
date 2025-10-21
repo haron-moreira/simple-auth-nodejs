@@ -7,7 +7,7 @@ const responses = {
             is_success: true,
             transaction_id: transaction,
             information: info,
-            surf_code: '200_1',
+            response_code: '200_1',
         }),
 
         '200_2': (transaction, info = {}) => ({
@@ -16,7 +16,7 @@ const responses = {
             is_success: true,
             transaction_id: transaction,
             information: info,
-            surf_code: '200_2',
+            response_code: '200_2',
         }),
 
         '200_3': (transaction, info = {}) => ({
@@ -25,7 +25,7 @@ const responses = {
             is_success: true,
             transaction_id: transaction,
             information: info,
-            surf_code: '200_3',
+            response_code: '200_3',
         }),
 
         '200_4': (transaction, info = {}) => ({
@@ -34,7 +34,7 @@ const responses = {
             is_success: true,
             transaction_id: transaction,
             information: info,
-            surf_code: '200_4',
+            response_code: '200_4',
         }),
 
         '200_5': (transaction, info = {}) => ({
@@ -43,7 +43,7 @@ const responses = {
             is_success: true,
             transaction_id: transaction,
             information: info,
-            surf_code: '200_5',
+            response_code: '200_5',
         }),
 
         '200_6': (transaction, info = {}) => ({
@@ -52,7 +52,7 @@ const responses = {
             is_success: true,
             transaction_id: transaction,
             information: info,
-            surf_code: '200_6',
+            response_code: '200_6',
         }),
     },
 
@@ -63,7 +63,7 @@ const responses = {
             is_success: false,
             transaction_id: transaction,
             information: null,
-            surf_code: '400_1',
+            response_code: '400_1',
         }),
 
         '400_2': (transaction) => ({
@@ -72,7 +72,7 @@ const responses = {
             is_success: false,
             transaction_id: transaction,
             information: null,
-            surf_code: '400_2',
+            response_code: '400_2',
         }),
 
         '400_3': (transaction) => ({
@@ -81,7 +81,7 @@ const responses = {
             is_success: false,
             transaction_id: transaction,
             information: null,
-            surf_code: '400_3',
+            response_code: '400_3',
         }),
 
         '400_4': (transaction) => ({
@@ -90,7 +90,7 @@ const responses = {
             is_success: false,
             transaction_id: transaction,
             information: null,
-            surf_code: '400_4',
+            response_code: '400_4',
         }),
 
         '401_1': (transaction) => ({
@@ -99,7 +99,7 @@ const responses = {
             is_success: false,
             transaction_id: transaction,
             information: null,
-            surf_code: '401_1',
+            response_code: '401_1',
         }),
 
         '401_2': (transaction) => ({
@@ -108,7 +108,7 @@ const responses = {
             is_success: false,
             transaction_id: transaction,
             information: null,
-            surf_code: '401_2',
+            response_code: '401_2',
         }),
 
         '403_1': (transaction) => ({
@@ -117,7 +117,7 @@ const responses = {
             is_success: false,
             transaction_id: transaction,
             information: null,
-            surf_code: '403_1',
+            response_code: '403_1',
         }),
 
         '404_1': (transaction) => ({
@@ -126,7 +126,7 @@ const responses = {
             is_success: false,
             transaction_id: transaction,
             information: null,
-            surf_code: '404_1',
+            response_code: '404_1',
         }),
 
         '404_2': (transaction) => ({
@@ -135,7 +135,7 @@ const responses = {
             is_success: false,
             transaction_id: require('uuid').v4(),
             information: null,
-            surf_code: '404_2',
+            response_code: '404_2',
         }),
 
         '500_1': (transaction) => ({
@@ -144,7 +144,7 @@ const responses = {
             is_success: false,
             transaction_id: transaction,
             information: null,
-            surf_code: '500_1',
+            response_code: '500_1',
         }),
 
         '500_2': (transaction) => ({
@@ -153,7 +153,7 @@ const responses = {
             is_success: false,
             transaction_id: transaction,
             information: null,
-            surf_code: '500_2',
+            response_code: '500_2',
         }),
 
     },

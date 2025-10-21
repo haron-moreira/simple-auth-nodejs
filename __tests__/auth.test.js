@@ -10,17 +10,17 @@ const PlatformModel = require('../src/models/Platform.model');
 const mockUser = {
     id: 1,
     id_user: 1,
-    username: 'kakashi',
-    password_hash: '$2b$10$abcdefg1234567890abcdefg1234567890abcdefg1234567890abcdefg', // hash fictício
+    username: 'testuser',
+    password_hash: '$2b$10$examplehashhere1234567890examplehashhere1234567890abcdef', // hash fictício
     profile: 'admin',
     status: 'active',
-    first_name: 'Kakashi',
-    last_name: 'Hatake',
-    role: 'sensei',
+    first_name: 'Test',
+    last_name: 'User',
+    role: 'admin',
     dt_created: new Date(),
     dt_last_update: new Date(),
-    main_origin: 'leaf',
-    uuid: 'some-uuid'
+    main_origin: 'web',
+    uuid: 'test-uuid-1234'
 };
 
 jest.mock('bcrypt', () => ({
@@ -49,11 +49,11 @@ beforeEach(() => {
     TokenModel.deleteRefreshToken.mockResolvedValue(true);
 });
 
-describe('Kakashi Auth - Login e Token', () => {
-    it('deve autenticar com sucesso via /auth/surf/api/v3/login', async () => {
+describe('Simple Auth - Login e Token', () => {
+    it('deve autenticar com sucesso via /auth/api/v1/login', async () => {
         const res = await request(app)
-            .post('/auth/surf/api/v3/login')
-            .send({ username: 'kakashi', password: 'senhaincorreta' });
+            .post('/auth/api/v1/login')
+            .send({ username: 'testuser', password: 'testpassword' });
 
         expect(res.statusCode).toBe(200);
         expect(res.body.information.token).toBeDefined();
@@ -62,19 +62,19 @@ describe('Kakashi Auth - Login e Token', () => {
     });
 
     it('deve validar o token corretamente via /token/validate', async () => {
-        const token = jwt.sign({ id: mockUser.id_user }, process.env.JWT_SECRET || 'kakashi-secret');
+        const token = jwt.sign({ id: mockUser.id_user }, process.env.JWT_SECRET || 'change-this-secret-in-production');
 
         const res = await request(app)
-            .get('/token/surf/api/v3/validate')
+            .get('/token/api/v1/validate')
             .set('Authorization', `Bearer ${token}`);
 
         expect(res.statusCode).toBe(200);
         expect(res.body.message).toMatch(/valid/i);
     });
 
-    it('deve renovar o token via /auth/surf/api/v3/refresh', async () => {
+    it('deve renovar o token via /auth/api/v1/refresh', async () => {
         const res = await request(app)
-            .post('/auth/surf/api/v3/refresh')
+            .post('/auth/api/v1/refresh')
             .set('Cookie', ['refresh_token=existing-refresh-token']);
 
         expect(res.statusCode).toBe(200);
@@ -83,12 +83,12 @@ describe('Kakashi Auth - Login e Token', () => {
 });
 
 
-describe('Kakashi Auth - Casos de erro', () => {
+describe('Simple Auth - Casos de erro', () => {
 
     it('deve retornar 400 se username ou password estiverem ausentes', async () => {
         const res = await request(app)
-            .post('/auth/surf/api/v3/login')
-            .send({ username: 'kakashi' }); // sem password
+            .post('/auth/api/v1/login')
+            .send({ username: 'testuser' }); // sem password
 
         expect(res.statusCode).toBe(400);
         expect(res.body).toHaveProperty('message');
@@ -98,7 +98,7 @@ describe('Kakashi Auth - Casos de erro', () => {
         UserModel.findByUsername.mockResolvedValueOnce(null); // simula usuário inexistente
 
         const res = await request(app)
-            .post('/auth/surf/api/v3/login')
+            .post('/auth/api/v1/login')
             .send({ username: 'inexistente', password: 'senha' });
 
         expect(res.statusCode).toBe(401);
@@ -109,8 +109,8 @@ describe('Kakashi Auth - Casos de erro', () => {
         bcrypt.compare.mockResolvedValueOnce(false); // simula falha de senha
 
         const res = await request(app)
-            .post('/auth/surf/api/v3/login')
-            .send({ username: 'kakashi', password: 'errada' });
+            .post('/auth/api/v1/login')
+            .send({ username: 'testuser', password: 'wrongpassword' });
 
         expect(res.statusCode).toBe(401);
     });
@@ -119,15 +119,15 @@ describe('Kakashi Auth - Casos de erro', () => {
         PlatformModel.userHasAccessToPlatform.mockResolvedValueOnce(false);
 
         const res = await request(app)
-            .post('/auth/surf/api/v3/login')
-            .send({ username: 'kakashi', password: 'certa' });
+            .post('/auth/api/v1/login')
+            .send({ username: 'testuser', password: 'testpassword' });
 
         expect(res.statusCode).toBe(403);
     });
 
     it('deve retornar 400 se não houver refresh_token no cookie', async () => {
         const res = await request(app)
-            .post('/auth/surf/api/v3/refresh'); // sem cookie
+            .post('/auth/api/v1/refresh'); // sem cookie
 
         expect(res.statusCode).toBe(400);
     });
@@ -136,7 +136,7 @@ describe('Kakashi Auth - Casos de erro', () => {
         TokenModel.findRefreshToken.mockResolvedValueOnce(null); // token não encontrado
 
         const res = await request(app)
-            .post('/auth/surf/api/v3/refresh')
+            .post('/auth/api/v1/refresh')
             .set('Cookie', ['refresh_token=token-invalido']);
 
         expect(res.statusCode).toBe(401);
@@ -146,8 +146,8 @@ describe('Kakashi Auth - Casos de erro', () => {
         TokenModel.storeRefreshToken.mockResolvedValueOnce(false); // simula erro no insert
 
         const res = await request(app)
-            .post('/auth/surf/api/v3/login')
-            .send({ username: 'kakashi', password: 'senhaincorreta' });
+            .post('/auth/api/v1/login')
+            .send({ username: 'testuser', password: 'testpassword' });
 
         expect(res.statusCode).toBe(500);
     });

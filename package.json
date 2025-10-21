@@ -1,7 +1,7 @@
 {
-  "name": "kakashi-authentication",
+  "name": "simple-auth-nodejs",
   "version": "1.0.0",
-  "description": "Authentication Application",
+  "description": "Simple Authentication Service - A production-ready JWT authentication microservice built with Node.js and Express",
   "main": "app.js",
   "scripts": {
     "test": "jest",
@@ -10,10 +10,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Surf-USA-Dev/kakashi-authentication.git"
+    "url": "git+https://github.com/haron-moreira/simple-auth-nodejs.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Haron Moreira",
+  "license": "MIT",
   "dependencies": {
     "@aws-sdk/client-cloudwatch-logs": "^3.678.0",
     "@aws-sdk/client-sqs": "^3.564.0",
@@ -46,7 +46,7 @@
     "swagger-autogen": "^2.23.7"
   },
   "bugs": {
-    "url": "https://github.com/Surf-USA-Dev/kakashi-authentication/issues"
+    "url": "https://github.com/haron-moreira/simple-auth-nodejs/issues"
   },
-  "homepage": "https://github.com/Surf-USA-Dev/kakashi-authentication#readme"
+  "homepage": "https://github.com/haron-moreira/simple-auth-nodejs#readme"
 }

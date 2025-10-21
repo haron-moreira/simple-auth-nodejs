@@ -3,9 +3,9 @@ const logger = require("../utils/logger");
 
 class UserModel {
     static async findByUsername(username) {
-        const query = `SELECT uc.id_user, uc.username, uc.password_hash, uc.profile, uc.status = 1 as status, uc.first_name, uc.last_name, uc.role, ro.uuid as main_origin, uc.uuid
+        const query = `SELECT uc.id_user, uc.username, uc.password_hash, uc.profile, uc.status = 1 as status, uc.first_name, uc.last_name, uc.role, uo.uuid as main_origin, uc.uuid
                                 FROM user uc
-                                LEFT JOIN recharge_origin ro ON ro.id_recharge_origin = uc.main_origin WHERE uc.username = ? AND uc.status = 1;`;
+                                LEFT JOIN user_origin uo ON uo.id_user_origin = uc.main_origin WHERE uc.username = ? AND uc.status = 1;`;
         try {
             const [rows] = await database.execute(query, [username]);
             return rows[0] || false;
@@ -22,9 +22,9 @@ class UserModel {
     }
 
     static async findById(id) {
-        const query = `SELECT uc.id_user, uc.username, uc.password_hash, uc.profile, uc.status = 1 as status, uc.first_name, uc.last_name, uc.role, ro.uuid as main_origin, uc.uuid
+        const query = `SELECT uc.id_user, uc.username, uc.password_hash, uc.profile, uc.status = 1 as status, uc.first_name, uc.last_name, uc.role, uo.uuid as main_origin, uc.uuid
                                 FROM user uc
-                                LEFT JOIN recharge_origin ro ON ro.id_recharge_origin = uc.main_origin WHERE uc.id_user = ? AND uc.status = 1;`;
+                                LEFT JOIN user_origin uo ON uo.id_user_origin = uc.main_origin WHERE uc.id_user = ? AND uc.status = 1;`;
         try {
             const [rows] = await database.execute(query, [id]);
             return rows[0] || false;

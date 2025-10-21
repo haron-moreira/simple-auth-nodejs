@@ -12,6 +12,7 @@ class TokenController {
         const token = req.headers.authorization?.split(' ')[1];
         if (!token) return res.status(401).json(this.responses.error["400_4"](this.transaction));
 
+        console.log(token);
 
         try {
             const decoded = this.jwt.verify(token, process.env.JWT_SECRET);

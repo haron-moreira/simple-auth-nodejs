@@ -15,7 +15,7 @@ const tokenControllerInstance = new TokenController({
 });
 
 
-router.get('/surf/api/v3/validate', tokenControllerInstance.validateToken.bind(tokenControllerInstance));
-router.get('/surf/api/v3/me', tokenControllerInstance.getMe.bind(tokenControllerInstance));
+router.get('/api/v1/validate', tokenControllerInstance.validateToken.bind(tokenControllerInstance));
+router.get('/api/v1/me', tokenControllerInstance.getMe.bind(tokenControllerInstance));
 
 module.exports = router;

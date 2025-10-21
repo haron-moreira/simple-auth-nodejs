@@ -8,7 +8,7 @@ const notFoundHandler = (req, res, next) => {
     logger.warn('Rota não encontrada', {
         path: req.originalUrl,
         method: req.method,
-        surf_code: '404_2',
+        response_code: '404_2',
         transaction_id: transactionId
     });
 
@@ -24,7 +24,7 @@ const errorHandler = (err, req, res, next) => {
     logger.error('Erro não tratado', {
         message: err.message,
         stack: err.stack,
-        surf_code: '500_1',
+        response_code: '500_1',
         path: req.originalUrl,
         method: req.method,
         transaction_id: transactionId

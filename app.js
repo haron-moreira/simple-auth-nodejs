@@ -13,10 +13,10 @@ AWSXRay.setContextMissingStrategy('LOG_ERROR');
 //AWSXRay.capturePromise();
 
 // 🔁 Health check fora do X-Ray (evita flood no service map)
-app.get('/health', (_, res) => res.status(200).json({ status: 'Kakashi authentication ok.' }));
+app.get('/health', (_, res) => res.status(200).json({ status: 'Simple Auth Node.js - OK' }));
 
 // 🎯 Início do trace X-Ray (precisa vir antes de qualquer rota/middleware)
-app.use(AWSXRay.express.openSegment('kakashi-auth'));
+app.use(AWSXRay.express.openSegment('simple-auth-nodejs'));
 
 // 🧠 CORS
 app.use(cors({
@@ -66,7 +66,7 @@ app.use(AWSXRay.express.closeSegment());
 // 🚀 Start do servidor
 if (process.env.NODE_ENV !== 'test') {
     const PORT = process.env.PORT || 3000;
-    app.listen(PORT, () => console.log(`Kakashi Auth rodando na porta ${PORT}`));
+    app.listen(PORT, () => console.log(`🚀 Simple Auth Node.js running on port ${PORT}`));
 }
 
 module.exports = app;

@@ -10,7 +10,7 @@ class AuthController {
         this.logger = logger;
         this.responses = responses;
         this.transaction = transaction;
-        this.JWT_SECRET = process.env.JWT_SECRET || 'kakashi-secret';
+        this.JWT_SECRET = process.env.JWT_SECRET || 'change-this-secret-in-production';
     }
 
     loginAPI = async (req, res) => {
@@ -22,7 +22,7 @@ class AuthController {
                 body: req.body,
                 headers: req.headers,
                 stack: __filename+"_24:40",
-                surf_code: "400_1"
+                response_code: "400_1"
             })
             return res.status(400).json(this.responses.error["400_1"](this.transaction))
         }
@@ -34,7 +34,7 @@ class AuthController {
                 body: req.body,
                 headers: req.headers,
                 stack: __filename+"_24:40",
-                surf_code: "400_1"
+                response_code: "400_1"
             })
             return res.status(400).json(this.responses.error["400_1"](this.transaction))
         }

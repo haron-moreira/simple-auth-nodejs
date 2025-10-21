@@ -20,9 +20,9 @@ const authController = new AuthController({
 });
 
 // 🛡️ Routes
-router.post('/surf/api/v3/login', authController.loginAPI.bind(authController));
-router.post('/surf/api/v3/login/web', authController.loginWeb.bind(authController));
-router.post('/surf/api/v3/refresh', authController.refreshToken.bind(authController));
-router.post('/surf/api/v3/logout', authController.logout.bind(authController));
+router.post('/api/v1/login', authController.loginAPI.bind(authController));
+router.post('/api/v1/login/web', authController.loginWeb.bind(authController));
+router.post('/api/v1/refresh', authController.refreshToken.bind(authController));
+router.post('/api/v1/logout', authController.logout.bind(authController));
 
 module.exports = router;
