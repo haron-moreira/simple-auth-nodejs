@@ -1,22 +1,40 @@
 require('dotenv').config();
 const { notFoundHandler, errorHandler } = require('./src/middlewares/error.middleware');
-const AWSXRay = require('aws-xray-sdk');
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
 
 const app = express();
 
-// 🔁 Captura global de HTTP e Promises
-AWSXRay.captureHTTPsGlobal(require('http'));
-AWSXRay.setContextMissingStrategy('LOG_ERROR');
-//AWSXRay.capturePromise();
+// Check if AWS X-Ray is enabled via environment variables
+const AWS_XRAY_ENABLED = process.env.AWS_XRAY_ENABLED === 'true' &&
+                         process.env.AWS_REGION &&
+                         process.env.AWS_ACCESS_KEY_ID;
 
-// 🔁 Health check fora do X-Ray (evita flood no service map)
-app.get('/health', (_, res) => res.status(200).json({ status: 'Simple Auth Node.js - OK' }));
+let AWSXRay;
+if (AWS_XRAY_ENABLED) {
+    try {
+        AWSXRay = require('aws-xray-sdk');
+        AWSXRay.captureHTTPsGlobal(require('http'));
+        AWSXRay.setContextMissingStrategy('LOG_ERROR');
+        console.log('✓ AWS X-Ray tracing enabled');
+    } catch (error) {
+        console.warn('⚠ AWS X-Ray not available, continuing without tracing');
+    }
+} else {
+    console.log('ℹ AWS X-Ray disabled - set AWS_XRAY_ENABLED=true to enable');
+}
 
-// 🎯 Início do trace X-Ray (precisa vir antes de qualquer rota/middleware)
-app.use(AWSXRay.express.openSegment('simple-auth-nodejs'));
+// 🔁 Health check (não precisa de X-Ray)
+app.get('/health', (_, res) => res.status(200).json({
+    status: 'Simple Auth Node.js - OK',
+    xray: AWS_XRAY_ENABLED ? 'enabled' : 'disabled'
+}));
+
+// 🎯 Início do trace X-Ray (se habilitado)
+if (AWS_XRAY_ENABLED && AWSXRay) {
+    app.use(AWSXRay.express.openSegment('simple-auth-nodejs'));
+}
 
 // 🧠 CORS
 app.use(cors({
@@ -46,9 +64,11 @@ app.use(express.urlencoded({ extended: true }));
 const FullLogger = require('./src/middlewares/complete_log.middleware')
 app.use(FullLogger.logRequestResponse)
 
-// 🎯 Middleware de subsegmento X-Ray por rota
-const xrayRouteTracer = require('./src/middlewares/xrayRouteTracer');
-app.use(xrayRouteTracer);
+// 🎯 Middleware de subsegmento X-Ray por rota (se habilitado)
+if (AWS_XRAY_ENABLED && AWSXRay) {
+    const xrayRouteTracer = require('./src/middlewares/xrayRouteTracer');
+    app.use(xrayRouteTracer);
+}
 
 // 🌐 Rotas centralizadas
 const routes = require('./src/routes');
@@ -60,8 +80,10 @@ app.use(notFoundHandler);
 // ❌ Erros inesperados
 app.use(errorHandler);
 
-// 🧯 Fecha o trace
-app.use(AWSXRay.express.closeSegment());
+// 🧯 Fecha o trace X-Ray (se habilitado)
+if (AWS_XRAY_ENABLED && AWSXRay) {
+    app.use(AWSXRay.express.closeSegment());
+}
 
 // 🚀 Start do servidor
 if (process.env.NODE_ENV !== 'test') {
